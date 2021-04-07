@@ -39,12 +39,12 @@
 4.shiro  
 5.mybatis  
 6.jsp  
-7.sql
-8.lucene
-9.bootstrap
-10.layui
-11.js css html
-12.ajax
+7.sql  
+8.lucene  
+9.bootstrap  
+10.layui  
+11.js css html  
+12.ajax  
 
 ## 开发环境
 1.IntelliJ IDEA 2019.1.3 x64  
