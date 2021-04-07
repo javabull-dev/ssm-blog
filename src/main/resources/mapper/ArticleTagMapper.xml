@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javabull.ssm.blog.dao.ArticleTagMapper">
+    <resultMap id="BaseResultMap" type="com.javabull.ssm.blog.bean.ArticleTag">
+        <result column="article_id" jdbcType="INTEGER" property="articleId"/>
+        <result column="tag_id" jdbcType="INTEGER" property="tagId"/>
+    </resultMap>
+    <resultMap id="resultMap" type="com.javabull.ssm.blog.bean.Article">
+        <id property="articleId" column="article_id" jdbcType="INTEGER"></id>
+        <result column="article_title" property="articleTitle" jdbcType="VARCHAR"></result>
+        <result column="article_read_amount" property="articleReadAmount" jdbcType="INTEGER"></result>
+        <result column="article_summary" property="articleSummary" jdbcType="VARCHAR"></result>
+        <result column="article_create_time" property="articleCreateTime" jdbcType="TIMESTAMP"></result>
+        <result column="article_image_url" property="articleImageUrl" jdbcType="VARCHAR"></result>
+        <collection property="tags" ofType="com.javabull.ssm.blog.bean.Tag">
+            <id property="tagId" column="tag_id" jdbcType="INTEGER"></id>
+            <result column="tag_content" property="tagContent" jdbcType="VARCHAR"></result>
+        </collection>
+    </resultMap>
+
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    article_id, tag_id
+  </sql>
+    <select id="selectByExample" parameterType="com.javabull.ssm.blog.bean.ArticleTagExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from tbl_article_tag_ref
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <delete id="deleteByExample" parameterType="com.javabull.ssm.blog.bean.ArticleTagExample">
+        delete from tbl_article_tag_ref
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+
+    <delete id="deleteTagRef" parameterType="integer">
+        DELETE FROM tbl_article_tag_ref WHERE article_id=#{articleId}
+    </delete>
+
+    <insert id="insert" parameterType="com.javabull.ssm.blog.bean.ArticleTag">
+    insert into tbl_article_tag_ref (article_id, tag_id)
+    values (#{articleId,jdbcType=INTEGER}, #{tagId,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.javabull.ssm.blog.bean.ArticleTag">
+        insert into tbl_article_tag_ref
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">
+                article_id,
+            </if>
+            <if test="tagId != null">
+                tag_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">
+                #{articleId,jdbcType=INTEGER},
+            </if>
+            <if test="tagId != null">
+                #{tagId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--  批量插入tbl_article_tag_ref  -->
+    <insert id="insertBatch" parameterType="map">
+        insert into tbl_article_tag_ref(article_id, tag_id)
+        values
+        <foreach collection="map.articleTagIds" item="articleTagId" separator=",">
+            (#{map.articleId},#{articleTagId})
+        </foreach>
+    </insert>
+
+    <select id="countByExample" parameterType="com.javabull.ssm.blog.bean.ArticleTagExample"
+            resultType="java.lang.Long">
+        select count(*) from tbl_article_tag_ref
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+
+    <select id="getByArticleIdWithTags" resultType="com.javabull.ssm.blog.bean.Tag">
+        SELECT * FROM tb_tag
+        WHERE tb_tag.`tag_id` IN (
+            SELECT tbl_article_tag_ref.`tag_id` FROM `tbl_article_tag_ref`
+            WHERE tbl_article_tag_ref.`article_id` = #{articleId}
+        );
+    </select>
+    <sql id="sql1">
+        SELECT ta.`article_id`,ta.`article_read_amount`,ta.`article_image_url`
+        ,ta.`article_title`,ta.`article_summary`,ta.`article_create_time`,
+        tt.`tag_id`,tt.`tag_content`
+        FROM tbl_article_tag_ref tat
+        LEFT JOIN tb_article ta
+        ON ta.article_id = tat.article_id
+        LEFT JOIN tb_tag tt
+        ON tt.`tag_id`=tat.`tag_id`
+    </sql>
+    <select id="getArticlesByTagId" resultMap="resultMap">
+        <include refid="sql1"/>
+        WHERE tat.tag_id=#{tagId}
+    </select>
+    <select id="selectSummaryArticleAndTags" resultMap="resultMap">
+        <include refid="sql1"/>
+    </select>
+
+    <select id="selectSummaryArticles" resultType="com.javabull.ssm.blog.bean.Article">
+        SELECT ta.`article_id`,ta.`article_read_amount`,ta.`article_image_url`
+        ,ta.`article_title`,ta.`article_summary`,ta.`article_create_time`
+        from tb_article ta
+        where ta.`article_id`>= #{articleId}
+        LIMIT 0,#{size}
+    </select>
+
+    <select id="getTagsByArticleId" resultType="com.javabull.ssm.blog.bean.Tag">
+        SELECT tt.`tag_id`,tt.`tag_content`
+        FROM tbl_article_tag_ref tat
+        LEFT JOIN tb_tag tt
+        ON  tat.`tag_id`=tt.`tag_id`
+        WHERE tat.`article_id`= #{articleId}
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
+        update tbl_article_tag_ref
+        <set>
+            <if test="record.articleId != null">
+                article_id = #{record.articleId,jdbcType=INTEGER},
+            </if>
+            <if test="record.tagId != null">
+                tag_id = #{record.tagId,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update tbl_article_tag_ref
+        set article_id = #{record.articleId,jdbcType=INTEGER},
+        tag_id = #{record.tagId,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+
+</mapper>

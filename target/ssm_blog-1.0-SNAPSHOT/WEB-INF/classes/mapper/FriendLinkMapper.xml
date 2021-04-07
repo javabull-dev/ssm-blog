@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javabull.ssm.blog.dao.FriendLinkMapper">
+    <resultMap id="BaseResultMap" type="com.javabull.ssm.blog.bean.FriendLink">
+        <id column="link_id" jdbcType="INTEGER" property="linkId"/>
+        <result column="link_name" jdbcType="VARCHAR" property="linkName"/>
+        <result column="link_url" jdbcType="VARCHAR" property="linkUrl"/>
+        <result column="link_email" jdbcType="VARCHAR" property="linkEmail"/>
+        <result column="link_order" jdbcType="INTEGER" property="linkOrder"/>
+        <result column="link_description" jdbcType="VARCHAR" property="linkDescription"/>
+        <result column="link_status" jdbcType="INTEGER" property="linkStatus"/>
+        <result column="link_create_time" jdbcType="TIMESTAMP" property="linkCreateTime"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Example_Where_Clause2">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List">
+    link_id, link_name, link_url, link_email, link_order, link_description, link_status, 
+    link_create_time
+  </sql>
+    <select id="selectByExample" parameterType="com.javabull.ssm.blog.bean.FriendLinkExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from tb_friend_link
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_friend_link
+        where link_id = #{linkId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_friend_link
+    where link_id = #{linkId,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.javabull.ssm.blog.bean.FriendLinkExample">
+        delete from tb_friend_link
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.javabull.ssm.blog.bean.FriendLink">
+    insert into tb_friend_link (link_id, link_name, link_url, 
+      link_email, link_order, link_description, 
+      link_status, link_create_time)
+    values (#{linkId,jdbcType=INTEGER}, #{linkName,jdbcType=VARCHAR}, #{linkUrl,jdbcType=VARCHAR}, 
+      #{linkEmail,jdbcType=VARCHAR}, #{linkOrder,jdbcType=INTEGER}, #{linkDescription,jdbcType=VARCHAR}, 
+      #{linkStatus,jdbcType=INTEGER}, #{linkCreateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.javabull.ssm.blog.bean.FriendLink">
+        insert into tb_friend_link
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="linkId != null">
+                link_id,
+            </if>
+            <if test="linkName != null">
+                link_name,
+            </if>
+            <if test="linkUrl != null">
+                link_url,
+            </if>
+            <if test="linkEmail != null">
+                link_email,
+            </if>
+            <if test="linkOrder != null">
+                link_order,
+            </if>
+            <if test="linkDescription != null">
+                link_description,
+            </if>
+            <if test="linkStatus != null">
+                link_status,
+            </if>
+            <if test="linkCreateTime != null">
+                link_create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="linkId != null">
+                #{linkId,jdbcType=INTEGER},
+            </if>
+            <if test="linkName != null">
+                #{linkName,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUrl != null">
+                #{linkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="linkEmail != null">
+                #{linkEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="linkOrder != null">
+                #{linkOrder,jdbcType=INTEGER},
+            </if>
+            <if test="linkDescription != null">
+                #{linkDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="linkStatus != null">
+                #{linkStatus,jdbcType=INTEGER},
+            </if>
+            <if test="linkCreateTime != null">
+                #{linkCreateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.javabull.ssm.blog.bean.FriendLinkExample"
+            resultType="java.lang.Long">
+        select count(*) from tb_friend_link
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+
+    <select id="selectByExampleWithSelectiveReturn" resultType="com.javabull.ssm.blog.bean.FriendLink">
+        select
+        <trim prefix="" suffix="" suffixOverrides=",">
+            <if test="friendLink.linkId != null">
+                link_id,
+            </if>
+            <if test="friendLink.linkName != null">
+                link_name,
+            </if>
+            <if test="friendLink.linkUrl != null">
+                link_url,
+            </if>
+            <if test="friendLink.linkEmail != null">
+                link_email,
+            </if>
+            <if test="friendLink.linkOrder != null">
+                link_order,
+            </if>
+            <if test="friendLink.linkDescription != null">
+                link_description,
+            </if>
+            <if test="friendLink.linkStatus != null">
+                link_status,
+            </if>
+            <if test="friendLink.linkCreateTime != null">
+                link_create_time,
+            </if>
+        </trim>
+        from tb_friend_link
+        <if test="example != null">
+            <include refid="Example_Where_Clause2"/>
+        </if>
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
+        update tb_friend_link
+        <set>
+            <if test="record.linkId != null">
+                link_id = #{record.linkId,jdbcType=INTEGER},
+            </if>
+            <if test="record.linkName != null">
+                link_name = #{record.linkName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.linkUrl != null">
+                link_url = #{record.linkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.linkEmail != null">
+                link_email = #{record.linkEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="record.linkOrder != null">
+                link_order = #{record.linkOrder,jdbcType=INTEGER},
+            </if>
+            <if test="record.linkDescription != null">
+                link_description = #{record.linkDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="record.linkStatus != null">
+                link_status = #{record.linkStatus,jdbcType=INTEGER},
+            </if>
+            <if test="record.linkCreateTime != null">
+                link_create_time = #{record.linkCreateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update tb_friend_link
+        set link_id = #{record.linkId,jdbcType=INTEGER},
+        link_name = #{record.linkName,jdbcType=VARCHAR},
+        link_url = #{record.linkUrl,jdbcType=VARCHAR},
+        link_email = #{record.linkEmail,jdbcType=VARCHAR},
+        link_order = #{record.linkOrder,jdbcType=INTEGER},
+        link_description = #{record.linkDescription,jdbcType=VARCHAR},
+        link_status = #{record.linkStatus,jdbcType=INTEGER},
+        link_create_time = #{record.linkCreateTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.javabull.ssm.blog.bean.FriendLink">
+        update tb_friend_link
+        <set>
+            <if test="linkName != null">
+                link_name = #{linkName,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUrl != null">
+                link_url = #{linkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="linkEmail != null">
+                link_email = #{linkEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="linkOrder != null">
+                link_order = #{linkOrder,jdbcType=INTEGER},
+            </if>
+            <if test="linkDescription != null">
+                link_description = #{linkDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="linkStatus != null">
+                link_status = #{linkStatus,jdbcType=INTEGER},
+            </if>
+            <if test="linkCreateTime != null">
+                link_create_time = #{linkCreateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where link_id = #{linkId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.javabull.ssm.blog.bean.FriendLink">
+    update tb_friend_link
+    set link_name = #{linkName,jdbcType=VARCHAR},
+      link_url = #{linkUrl,jdbcType=VARCHAR},
+      link_email = #{linkEmail,jdbcType=VARCHAR},
+      link_order = #{linkOrder,jdbcType=INTEGER},
+      link_description = #{linkDescription,jdbcType=VARCHAR},
+      link_status = #{linkStatus,jdbcType=INTEGER},
+      link_create_time = #{linkCreateTime,jdbcType=TIMESTAMP}
+    where link_id = #{linkId,jdbcType=INTEGER}
+  </update>
+</mapper>

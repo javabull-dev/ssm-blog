@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javabull.ssm.blog.dao.OptionsMapper">
+  <resultMap id="BaseResultMap" type="com.javabull.ssm.blog.bean.Options">
+    <id column="option_id" jdbcType="INTEGER" property="optionId" />
+    <result column="option_title" jdbcType="VARCHAR" property="optionTitle" />
+    <result column="option_site_descrption" jdbcType="VARCHAR" property="optionSiteDescrption" />
+    <result column="option_page_descrption" jdbcType="VARCHAR" property="optionPageDescrption" />
+    <result column="option_meta_keyword" jdbcType="VARCHAR" property="optionMetaKeyword" />
+    <result column="option_update_time" jdbcType="TIMESTAMP" property="optionUpdateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    option_id, option_title, option_site_descrption, option_page_descrption, option_meta_keyword, 
+    option_update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.javabull.ssm.blog.bean.OptionsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_options
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_options
+    where option_id = #{optionId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_options
+    where option_id = #{optionId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.javabull.ssm.blog.bean.OptionsExample">
+    delete from tb_options
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.javabull.ssm.blog.bean.Options">
+    insert into tb_options (option_id, option_title, option_site_descrption, 
+      option_page_descrption, option_meta_keyword, 
+      option_update_time)
+    values (#{optionId,jdbcType=INTEGER}, #{optionTitle,jdbcType=VARCHAR}, #{optionSiteDescrption,jdbcType=VARCHAR}, 
+      #{optionPageDescrption,jdbcType=VARCHAR}, #{optionMetaKeyword,jdbcType=VARCHAR}, 
+      #{optionUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.javabull.ssm.blog.bean.Options">
+    insert into tb_options
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="optionId != null">
+        option_id,
+      </if>
+      <if test="optionTitle != null">
+        option_title,
+      </if>
+      <if test="optionSiteDescrption != null">
+        option_site_descrption,
+      </if>
+      <if test="optionPageDescrption != null">
+        option_page_descrption,
+      </if>
+      <if test="optionMetaKeyword != null">
+        option_meta_keyword,
+      </if>
+      <if test="optionUpdateTime != null">
+        option_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="optionId != null">
+        #{optionId,jdbcType=INTEGER},
+      </if>
+      <if test="optionTitle != null">
+        #{optionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="optionSiteDescrption != null">
+        #{optionSiteDescrption,jdbcType=VARCHAR},
+      </if>
+      <if test="optionPageDescrption != null">
+        #{optionPageDescrption,jdbcType=VARCHAR},
+      </if>
+      <if test="optionMetaKeyword != null">
+        #{optionMetaKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="optionUpdateTime != null">
+        #{optionUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.javabull.ssm.blog.bean.OptionsExample" resultType="java.lang.Long">
+    select count(*) from tb_options
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_options
+    <set>
+      <if test="record.optionId != null">
+        option_id = #{record.optionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.optionTitle != null">
+        option_title = #{record.optionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optionSiteDescrption != null">
+        option_site_descrption = #{record.optionSiteDescrption,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optionPageDescrption != null">
+        option_page_descrption = #{record.optionPageDescrption,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optionMetaKeyword != null">
+        option_meta_keyword = #{record.optionMetaKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optionUpdateTime != null">
+        option_update_time = #{record.optionUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_options
+    set option_id = #{record.optionId,jdbcType=INTEGER},
+      option_title = #{record.optionTitle,jdbcType=VARCHAR},
+      option_site_descrption = #{record.optionSiteDescrption,jdbcType=VARCHAR},
+      option_page_descrption = #{record.optionPageDescrption,jdbcType=VARCHAR},
+      option_meta_keyword = #{record.optionMetaKeyword,jdbcType=VARCHAR},
+      option_update_time = #{record.optionUpdateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.javabull.ssm.blog.bean.Options">
+    update tb_options
+    <set>
+      <if test="optionTitle != null">
+        option_title = #{optionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="optionSiteDescrption != null">
+        option_site_descrption = #{optionSiteDescrption,jdbcType=VARCHAR},
+      </if>
+      <if test="optionPageDescrption != null">
+        option_page_descrption = #{optionPageDescrption,jdbcType=VARCHAR},
+      </if>
+      <if test="optionMetaKeyword != null">
+        option_meta_keyword = #{optionMetaKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="optionUpdateTime != null">
+        option_update_time = #{optionUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where option_id = #{optionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.javabull.ssm.blog.bean.Options">
+    update tb_options
+    set option_title = #{optionTitle,jdbcType=VARCHAR},
+      option_site_descrption = #{optionSiteDescrption,jdbcType=VARCHAR},
+      option_page_descrption = #{optionPageDescrption,jdbcType=VARCHAR},
+      option_meta_keyword = #{optionMetaKeyword,jdbcType=VARCHAR},
+      option_update_time = #{optionUpdateTime,jdbcType=TIMESTAMP}
+    where option_id = #{optionId,jdbcType=INTEGER}
+  </update>
+</mapper>

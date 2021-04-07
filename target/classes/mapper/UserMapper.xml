@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javabull.ssm.blog.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.javabull.ssm.blog.bean.User">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword"/>
+        <result column="user_avatar_url" jdbcType="VARCHAR" property="userAvatarUrl"/>
+        <result column="user_introduction" jdbcType="VARCHAR" property="userIntroduction"/>
+        <result column="user_register_time" jdbcType="TIMESTAMP" property="userRegisterTime"/>
+        <result column="user_update_time" jdbcType="TIMESTAMP" property="userUpdateTime"/>
+        <result column="user_last_login_time" jdbcType="TIMESTAMP" property="userLastLoginTime"/>
+        <result column="user_status" jdbcType="INTEGER" property="userStatus"/>
+        <result column="user_nick_name" jdbcType="VARCHAR" property="userNickName"/>
+        <result column="user_last_login_ip" jdbcType="VARCHAR" property="userLastLoginIp"/>
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail"/>
+        <result column="user_url" jdbcType="VARCHAR" property="userUrl"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Example_Where_Clause2">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    user_id, user_name, user_password, user_avatar_url, user_introduction, user_register_time, 
+    user_update_time, user_last_login_time, user_status, user_nick_name, user_last_login_ip, 
+    user_email, user_url
+  </sql>
+    <select id="selectByExample" parameterType="com.javabull.ssm.blog.bean.UserExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from tb_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.javabull.ssm.blog.bean.UserExample">
+        delete from tb_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.javabull.ssm.blog.bean.User">
+    insert into tb_user (user_id, user_name, user_password, 
+      user_avatar_url, user_introduction, user_register_time, 
+      user_update_time, user_last_login_time, 
+      user_status, user_nick_name, user_last_login_ip, 
+      user_email, user_url)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userAvatarUrl,jdbcType=VARCHAR}, #{userIntroduction,jdbcType=VARCHAR}, #{userRegisterTime,jdbcType=TIMESTAMP}, 
+      #{userUpdateTime,jdbcType=TIMESTAMP}, #{userLastLoginTime,jdbcType=TIMESTAMP}, 
+      #{userStatus,jdbcType=INTEGER}, #{userNickName,jdbcType=VARCHAR}, #{userLastLoginIp,jdbcType=VARCHAR}, 
+      #{userEmail,jdbcType=VARCHAR}, #{userUrl,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.javabull.ssm.blog.bean.User">
+        insert into tb_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="userAvatarUrl != null">
+                user_avatar_url,
+            </if>
+            <if test="userIntroduction != null">
+                user_introduction,
+            </if>
+            <if test="userRegisterTime != null">
+                user_register_time,
+            </if>
+            <if test="userUpdateTime != null">
+                user_update_time,
+            </if>
+            <if test="userLastLoginTime != null">
+                user_last_login_time,
+            </if>
+            <if test="userStatus != null">
+                user_status,
+            </if>
+            <if test="userNickName != null">
+                user_nick_name,
+            </if>
+            <if test="userLastLoginIp != null">
+                user_last_login_ip,
+            </if>
+            <if test="userEmail != null">
+                user_email,
+            </if>
+            <if test="userUrl != null">
+                user_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userAvatarUrl != null">
+                #{userAvatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="userIntroduction != null">
+                #{userIntroduction,jdbcType=VARCHAR},
+            </if>
+            <if test="userRegisterTime != null">
+                #{userRegisterTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userUpdateTime != null">
+                #{userUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userLastLoginTime != null">
+                #{userLastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userStatus != null">
+                #{userStatus,jdbcType=INTEGER},
+            </if>
+            <if test="userNickName != null">
+                #{userNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="userLastLoginIp != null">
+                #{userLastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userUrl != null">
+                #{userUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.javabull.ssm.blog.bean.UserExample" resultType="java.lang.Long">
+        select count(*) from tb_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <select id="selectAll" resultType="com.javabull.ssm.blog.entity.UserTo">
+    select * from tb_user
+  </select>
+
+    <sql id="User_Return_Selective">
+        <trim prefix="" suffix="" suffixOverrides=",">
+            <if test="user.userId != null">
+                tb_user.user_id,
+            </if>
+            <if test="user.userName != null">
+                tb_user.user_name,
+            </if>
+            <if test="user.userPassword != null">
+                tb_user.user_password ,
+            </if>
+            <if test="user.userAvatarUrl != null">
+                tb_user.user_avatar_url,
+            </if>
+            <if test="user.userIntroduction != null">
+                tb_user.user_introduction,
+            </if>
+            <if test="user.userRegisterTime != null">
+                tb_user.user_register_time,
+            </if>
+            <if test="user.userUpdateTime != null">
+                tb_user.user_update_time,
+            </if>
+            <if test="user.userLastLoginTime != null">
+                tb_user.user_last_login_time,
+            </if>
+            <if test="user.userStatus != null">
+                tb_user.user_status,
+            </if>
+            <if test="user.userNickName != null">
+                tb_user.user_nick_name,
+            </if>
+            <if test="user.userLastLoginIp != null">
+                tb_user.user_last_login_ip,
+            </if>
+            <if test="user.userEmail != null">
+                tb_user.user_email,
+            </if>
+            <if test="user.userUrl != null">
+                tb_user.user_url,
+            </if>
+        </trim>
+    </sql>
+    <select id="selectSelectiveWithReturnSelective" resultType="com.javabull.ssm.blog.bean.User">
+        select
+        <if test="user!=null">
+            <include refid="User_Return_Selective"/>
+        </if>
+        from tb_user
+        <if test="example != null">
+            <include refid="Example_Where_Clause2"/>
+        </if>
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
+        update tb_user
+        <set>
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=INTEGER},
+            </if>
+            <if test="record.userName != null">
+                user_name = #{record.userName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userPassword != null">
+                user_password = #{record.userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userAvatarUrl != null">
+                user_avatar_url = #{record.userAvatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userIntroduction != null">
+                user_introduction = #{record.userIntroduction,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userRegisterTime != null">
+                user_register_time = #{record.userRegisterTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.userUpdateTime != null">
+                user_update_time = #{record.userUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.userLastLoginTime != null">
+                user_last_login_time = #{record.userLastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.userStatus != null">
+                user_status = #{record.userStatus,jdbcType=INTEGER},
+            </if>
+            <if test="record.userNickName != null">
+                user_nick_name = #{record.userNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userLastLoginIp != null">
+                user_last_login_ip = #{record.userLastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userEmail != null">
+                user_email = #{record.userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userUrl != null">
+                user_url = #{record.userUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update tb_user
+        set user_id = #{record.userId,jdbcType=INTEGER},
+        user_name = #{record.userName,jdbcType=VARCHAR},
+        user_password = #{record.userPassword,jdbcType=VARCHAR},
+        user_avatar_url = #{record.userAvatarUrl,jdbcType=VARCHAR},
+        user_introduction = #{record.userIntroduction,jdbcType=VARCHAR},
+        user_register_time = #{record.userRegisterTime,jdbcType=TIMESTAMP},
+        user_update_time = #{record.userUpdateTime,jdbcType=TIMESTAMP},
+        user_last_login_time = #{record.userLastLoginTime,jdbcType=TIMESTAMP},
+        user_status = #{record.userStatus,jdbcType=INTEGER},
+        user_nick_name = #{record.userNickName,jdbcType=VARCHAR},
+        user_last_login_ip = #{record.userLastLoginIp,jdbcType=VARCHAR},
+        user_email = #{record.userEmail,jdbcType=VARCHAR},
+        user_url = #{record.userUrl,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.javabull.ssm.blog.bean.User">
+        update tb_user
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userAvatarUrl != null">
+                user_avatar_url = #{userAvatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="userIntroduction != null">
+                user_introduction = #{userIntroduction,jdbcType=VARCHAR},
+            </if>
+            <if test="userRegisterTime != null">
+                user_register_time = #{userRegisterTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userUpdateTime != null">
+                user_update_time = #{userUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userLastLoginTime != null">
+                user_last_login_time = #{userLastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userStatus != null">
+                user_status = #{userStatus,jdbcType=INTEGER},
+            </if>
+            <if test="userNickName != null">
+                user_nick_name = #{userNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="userLastLoginIp != null">
+                user_last_login_ip = #{userLastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                user_email = #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userUrl != null">
+                user_url = #{userUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.javabull.ssm.blog.bean.User">
+    update tb_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_avatar_url = #{userAvatarUrl,jdbcType=VARCHAR},
+      user_introduction = #{userIntroduction,jdbcType=VARCHAR},
+      user_register_time = #{userRegisterTime,jdbcType=TIMESTAMP},
+      user_update_time = #{userUpdateTime,jdbcType=TIMESTAMP},
+      user_last_login_time = #{userLastLoginTime,jdbcType=TIMESTAMP},
+      user_status = #{userStatus,jdbcType=INTEGER},
+      user_nick_name = #{userNickName,jdbcType=VARCHAR},
+      user_last_login_ip = #{userLastLoginIp,jdbcType=VARCHAR},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_url = #{userUrl,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

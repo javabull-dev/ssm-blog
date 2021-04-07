@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javabull.ssm.blog.dao.ArticleCategoryMapper">
+    <resultMap id="BaseResultMap" type="com.javabull.ssm.blog.bean.ArticleCategory">
+        <result column="article_id" jdbcType="INTEGER" property="articleId"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="com.javabull.ssm.blog.bean.Article">
+        <id column="article_id" jdbcType="INTEGER" property="articleId"/>
+        <result column="article_title" jdbcType="VARCHAR" property="articleTitle"/>
+        <result column="article_status" jdbcType="INTEGER" property="articleStatus"/>
+        <result column="article_create_time" jdbcType="TIMESTAMP" property="articleCreateTime"/>
+        <result column="article_read_amount" jdbcType="INTEGER" property="articleReadAmount"/>
+        <result column="article_image_url" jdbcType="VARCHAR" property="articleImageUrl"/>
+        <result column="article_summary" jdbcType="VARCHAR" property="articleSummary"/>
+        <collection property="categories" ofType="com.javabull.ssm.blog.bean.Category">
+            <id column="category_id" jdbcType="INTEGER" property="categoryId"/>
+            <result column="category_name" jdbcType="INTEGER" property="categoryName"/>
+        </collection>
+    </resultMap>
+    <resultMap id="ResultMap2" type="com.javabull.ssm.blog.entity.CategoryParam">
+        <id property="category.categoryId" column="category_id" jdbcType="INTEGER"/>
+        <result property="category.categoryName" column="category_name" jdbcType="VARCHAR"/>
+        <result property="articleCount" column="article_count" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    article_id, category_id
+  </sql>
+    <select id="selectByExample" parameterType="com.javabull.ssm.blog.bean.ArticleCategoryExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from tbl_article_category_ref
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <delete id="deleteByExample" parameterType="com.javabull.ssm.blog.bean.ArticleCategoryExample">
+        delete from tbl_article_category_ref
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <delete id="deleteCategoryRef" parameterType="integer">
+        delete from tbl_article_category_ref where article_id=#{articleId}
+    </delete>
+    <insert id="insert" parameterType="com.javabull.ssm.blog.bean.ArticleCategory">
+    insert into tbl_article_category_ref (article_id, category_id)
+    values (#{articleId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.javabull.ssm.blog.bean.ArticleCategory">
+        insert into tbl_article_category_ref
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">
+                article_id,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">
+                #{articleId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.javabull.ssm.blog.bean.ArticleCategoryExample"
+            resultType="java.lang.Long">
+        select count(*) from tbl_article_category_ref
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+
+    <select id="getByArticleIdWithCategorys" resultType="com.javabull.ssm.blog.bean.Category">
+        SELECT tb_category.*
+        FROM tbl_article_category_ref
+        LEFT JOIN tb_category
+        ON tbl_article_category_ref.`category_id`=tb_category.`category_id`
+        WHERE tbl_article_category_ref.`article_id`=#{articleId}
+    </select>
+
+    <sql id="sql1">
+        SELECT ta.`article_id`, ta.`article_title`, ta.`article_status`,
+        ta.`article_update_time`, ta.`article_order`, tc.`category_name`, tc.`category_id`,ta.`article_status`
+        FROM tb_article ta, tbl_article_category_ref tac, tb_category tc
+        WHERE ta.`article_id`=tac.`article_id`
+        AND tc.`category_id`=tac.`category_id`
+        and ta.`article_status`!=0
+    </sql>
+
+    <select id="getArticlesByCategoryId" resultMap="BaseResultMap2">
+        SELECT ta.`article_id`,ta.`article_read_amount`,ta.`article_image_url`,ta.`article_status`
+        ,ta.`article_title`,ta.`article_summary`,ta.`article_create_time`,
+         tc.`category_name`, tc.`category_id`
+        FROM tb_article ta, tbl_article_category_ref tac, tb_category tc
+        WHERE ta.`article_id`=tac.`article_id`
+        AND tc.`category_id`=tac.`category_id`
+        and tac.`category_id`=#{categoryId}
+        and ta.`article_status`=1
+    </select>
+
+    <select id="getArticlesWithCategory" resultMap="BaseResultMap2">
+        <include refid="sql1"></include>
+        ORDER BY ta.`article_order` ASC
+    </select>
+
+    <select id="selectAllCategoryArticleCount" resultMap="ResultMap2">
+        SELECT tc.`category_id`,tc.`category_name`,COUNT(tac.`article_id`) article_count FROM tb_category tc
+        LEFT JOIN tbl_article_category_ref tac
+        ON tac.`category_id`=tc.`category_id`
+        GROUP BY tc.`category_id`
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
+        update tbl_article_category_ref
+        <set>
+            <if test="record.articleId != null">
+                article_id = #{record.articleId,jdbcType=INTEGER},
+            </if>
+            <if test="record.categoryId != null">
+                category_id = #{record.categoryId,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update tbl_article_category_ref
+        set article_id = #{record.articleId,jdbcType=INTEGER},
+        category_id = #{record.categoryId,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+
+    <update id="updateByArticleId">
+        UPDATE tbl_article_category_ref acr SET acr.`category_id`=#{categoryId}
+        WHERE acr.`article_id`=#{articleId};
+    </update>
+</mapper>

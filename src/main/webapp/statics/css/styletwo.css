@@ -1,0 +1,240 @@
+.nav-color {
+	background-color: #FFFFFF;
+}
+
+body {
+	background-color: #f4f4f4;
+}
+
+li a:hover {
+	background: #FFFFFF;
+	color: red;
+	display: flex;
+}
+
+.active-a {
+	color: red;
+}
+
+.blog-post {
+	background-color: #FFFFFF;
+	margin-top: 20px;
+	margin-bottom: 30px;
+	border-width: 1px;
+	border-color: gray;
+	border-style: solid;
+}
+
+.blog-post-title {
+	margin-bottom: 5px;
+}
+
+.blog-post-title a {
+	color: #6a6a6a;
+}
+
+.blog-post-meta {
+	margin-bottom: 15px;
+	color: #999;
+	font-size: 14px;
+}
+
+.blog-post-content {
+	font-size: 15px;
+}
+
+.panel-m {
+	margin-top: 20px;
+}
+
+.img-hover :hover {
+	display: flex;
+}
+
+.panel-footer-background {
+	background-color: #FFFFFF;
+}
+
+.panel-body-font {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.col {
+	display: flex;
+}
+
+.col a {
+	text-decoration: none;
+	text-align: center;
+	width: 33.3%;
+}
+
+.col a :hover {
+	color: red;
+}
+
+.col a img {
+	max-width: 40px;
+}
+
+.li-content a {
+	text-decoration: none;
+}
+
+.li-content b {
+	text-align: center;
+	font-size: 18px;
+	font-weight: normal;
+}
+
+.list-group-group {
+	list-style: none;
+}
+
+.box {
+	display: flex;
+	/*等隔线*/
+	justify-content: space-between;
+}
+
+.box a:hover {
+	color: #D9534F;
+	display: block;
+}
+
+.tag-cloud {
+	display: flex;
+}
+
+.tag-cloud a {
+	background-color: #31B0D5;
+	color: #FFFFFF;
+	text-decoration: none;
+	margin: .6rem;
+	padding: .3rem;
+}
+
+.tag-cloud a:hover {
+	background-color: #122B40;
+}
+
+.friend-link a {
+	color: gray;
+	text-decoration: none;
+	margin: .5rem;
+}
+
+.friend-link a:hover {
+	color: #EB9316;
+}
+
+.media-head {
+	padding-left: 10px;
+	padding-top: 8px;
+}
+
+.media-body-style {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.media-body-style a {
+	text-decoration: none;
+}
+
+.media-body-style h4 {
+	padding-top: 10px;
+}
+
+.media-body-style b {
+	color: #6A6A6A;
+	font-weight: bold;
+	font-size: 10px;
+	margin-left: 5px;
+}
+
+.panel-background {
+	margin-top: 20px;
+}
+
+
+/*鼠标悬浮出现阴影效果*/
+
+.panel-background:hover {
+	/*display: block;*/
+	box-shadow: 3px 3px 4px 2px #ADADAD;
+}
+
+
+/*登入界面*/
+
+.login {
+	background: url(../img/backgroud/login-background4.jpg) no-repeat center center fixed;
+	font-family: Helvetica;
+	background-size: cover;
+	/*transition: background-image .5s linear .5s;*/
+}
+
+.login form {
+	background-color: #000000;
+	opacity: 0.6;
+	border-radius: 10px;
+	border: 1px solid #fff;
+	height: 270px;
+	width: 500px;
+	margin-top: 200px;
+	color: #FFFFFF;
+}
+
+.copyright {
+	margin-left: 38%;
+	margin-top: 240px;
+}
+
+.copyright label {
+	font-family: "edwardian script itc";
+	font-size: 18px;
+}
+
+#tip {
+	position: fixed;
+	opacity: 0.8;
+	margin: 0 40%;
+	width: 300px;
+}
+
+#tip .box {
+	font-weight: bold;
+	color: red;
+	background-color: #FFFFFF;
+}
+
+
+/*归档页面*/
+
+.panel-achieve a {
+	text-decoration: none;
+}
+
+.panel-achieve a:hover {
+	color: #B92C28;
+}
+
+
+/*文章显示页面*/
+
+.panel-article b {
+	font-weight: normal;
+}
+
+.panel-article h3 {
+	text-align: center;
+	color: #2AABD2;
+}
+
+.article-tag-show {
+	font-size: 12px;
+	text-align: center;
+	margin: 5px;
+}
