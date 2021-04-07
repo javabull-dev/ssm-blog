@@ -1,6 +1,6 @@
 # ssm-blog 一款不错的博客系统
 
-暑假学习ssm架构的时候，花了半个月学的一款博客系统，页面展示如下后台  
+暑假学习ssm架构的时候，花了半个月写的一款博客系统，页面展示如下后台  
 ![image](https://github.com/JavaBull-dev/my-ssm-blog/blob/master/img/1.jpg)
 ![image](https://github.com/JavaBull-dev/my-ssm-blog/blob/master/img/2.jpg)
 ![image](https://github.com/JavaBull-dev/my-ssm-blog/blob/master/img/3.jpg)
